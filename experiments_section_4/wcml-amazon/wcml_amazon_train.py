@@ -2,7 +2,7 @@ import os
 import numpy as np
 from openrec.legacy import ImplicitModelTrainer
 from openrec.legacy.utils import ImplicitDataset
-from openrec.legacy.recommenders import NCML
+from openrec.legacy.recommenders import WCML
 from openrec.legacy.utils.evaluators import AUC, Recall, Precision, NDCG
 from openrec.legacy.utils.samplers import NPairwiseSampler
 
@@ -25,11 +25,11 @@ train_dataset = ImplicitDataset(raw_data['train_data'], raw_data['max_user'], ra
 val_dataset = ImplicitDataset(raw_data['val_data'], raw_data['max_user'], raw_data['max_item'], name='Val')
 test_dataset = ImplicitDataset(raw_data['test_data'], raw_data['max_user'], raw_data['max_item'], name='Test')
 
-ncml_model = NCML(batch_size=batch_size, max_user=train_dataset.max_user(), max_item=train_dataset.max_item(), 
+wcml_model = WCML(batch_size=batch_size, max_user=train_dataset.max_user(), max_item=train_dataset.max_item(), 
     dim_embed=100, neg_num=5, l2_reg=1e-3, opt='Adam', sess_config=None)
 sampler = NPairwiseSampler(batch_size=batch_size, dataset=train_dataset, negativenum=5, num_process=5)
 model_trainer = ImplicitModelTrainer(batch_size=batch_size, test_batch_size=test_batch_size,
-                                     train_dataset=train_dataset, model=ncml_model, sampler=sampler,
+                                     train_dataset=train_dataset, model=wcml_model, sampler=sampler,
                                      eval_save_prefix="wcml-amazon",
                                      item_serving_size=666)
 auc_evaluator = AUC()

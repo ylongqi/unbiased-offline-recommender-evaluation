@@ -24,8 +24,9 @@ train_dataset = ImplicitDataset(raw_data['train_data'], raw_data['max_user'], ra
 val_dataset = ImplicitDataset(raw_data['val_data'], raw_data['max_user'], raw_data['max_item'], name='Val')
 test_dataset = ImplicitDataset(raw_data['test_data'], raw_data['max_user'], raw_data['max_item'], name='Test')
 
+# user/item embedding dimension is set to 50 in this case as using embedding of 50 outperforms that of 100
 cml_model = CML(batch_size=batch_size, max_user=train_dataset.max_user(), max_item=train_dataset.max_item(), 
-                dim_embed=100, opt='Adam', sess_config=None, l2_reg=0.1)
+                dim_embed=50, opt='Adam', sess_config=None, l2_reg=0.1)
 sampler = PairwiseSampler(batch_size=batch_size, dataset=train_dataset, num_process=5)
 model_trainer = ImplicitModelTrainer(batch_size=batch_size, test_batch_size=test_batch_size, 
     train_dataset=train_dataset, model=cml_model, sampler=sampler, 
