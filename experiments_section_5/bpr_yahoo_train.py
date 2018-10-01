@@ -2,9 +2,9 @@ import os
 import numpy as np
 from openrec.legacy import ImplicitModelTrainer
 from openrec.legacy.utils import ImplicitDataset
-from openrec.legacy.recommenders import PMF
+from openrec.legacy.recommenders import BPR
 from openrec.legacy.utils.evaluators import AUC
-from openrec.legacy.utils.samplers import PointwiseSampler
+from openrec.legacy.utils.samplers import PairwiseSampler
 
 os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/yahoo/training_arr.npy")
 os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/yahoo/validation_arr.npy")
@@ -21,12 +21,12 @@ display_itr = 1000
 train_dataset = ImplicitDataset(raw_data['train_data'], raw_data['max_user'], raw_data['max_item'], name='Train')
 val_dataset = ImplicitDataset(raw_data['val_data'], raw_data['max_user'], raw_data['max_item'], name='Val')
 
-model = PMF(batch_size=batch_size, max_user=train_dataset.max_user(), max_item=train_dataset.max_item(), 
+bpr_model = BPR(batch_size=batch_size, max_user=train_dataset.max_user(), max_item=train_dataset.max_item(), 
     dim_embed=50, l2_reg=0.001, opt='Adam', sess_config=None)
-sampler = PointwiseSampler(batch_size=batch_size, dataset=train_dataset , num_process=4)
+sampler = PairwiseSampler(batch_size=batch_size, dataset=train_dataset , num_process=4)
 model_trainer = ImplicitModelTrainer(batch_size=batch_size, test_batch_size=test_batch_size,
-                                     train_dataset=train_dataset, model=model, sampler=sampler,
-                                     eval_save_prefix="pmf-yahoo",
+                                     train_dataset=train_dataset, model=bpr_model, sampler=sampler,
+                                     eval_save_prefix="bpr-yahoo",
                                      item_serving_size=666)
 auc_evaluator = AUC()
 

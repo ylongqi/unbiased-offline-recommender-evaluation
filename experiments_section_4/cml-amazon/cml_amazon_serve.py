@@ -7,6 +7,9 @@ from openrec.legacy.recommenders import CML
 from openrec.legacy.utils.evaluators import AUC, Recall, Precision, NDCG
 from openrec.legacy.utils.samplers import PairwiseSampler
 
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/cml-amazon/cml-amazon-auc.data-00000-of-00001")
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/cml-amazon/cml-amazon-auc.index")
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/cml-amazon/cml-amazon-auc.meta")
 
 os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/amazon/rsrf_user_data_train.npy")
 os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/amazon/rsrf_user_data_val.npy")
@@ -38,7 +41,7 @@ recall_evaluator = Recall(recall_at=[10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
 precision_evaluator = Precision(precision_at=[10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
 ndcg_evaluator = NDCG(ndcg_at=[10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
 
-cml_model.load("cml-amazon")
+cml_model.load("cml-amazon-auc")
 
 
 model_trainer._eval_manager = ImplicitEvalManager(evaluators=[auc_evaluator, recall_evaluator, ndcg_evaluator, precision_evaluator])

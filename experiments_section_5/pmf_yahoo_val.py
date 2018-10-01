@@ -8,12 +8,14 @@ from openrec.legacy.utils.evaluators import AUC
 from openrec.legacy.utils.samplers import PointwiseSampler
 
 os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/yahoo/training_arr.npy")
-os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/yahoo/test_arr_pos.npy")
-os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/yahoo/test_arr_neg.npy")
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/yahoo/validation_arr.npy")
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/pmf-yahoo/pmf-yahoo.data-00000-of-00001")
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/pmf-yahoo/pmf-yahoo.meta")
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/pmf-yahoo/pmf-yahoo.index")
 
 raw_data = dict()
 raw_data['train_data'] = np.load("training_arr.npy")
-raw_data['val_data'] = np.load("test_arr_pos.npy")
+raw_data['val_data'] = np.load("validation_arr.npy")
 raw_data['max_user'] = 15401
 raw_data['max_item'] = 1001
 batch_size = 8000
@@ -38,6 +40,6 @@ model_trainer._eval_manager = ImplicitEvalManager(evaluators=[auc_evaluator])
 model_trainer._num_negatives = 200
 model_trainer._exclude_positives([train_dataset, val_dataset])
 model_trainer._sample_negatives(seed=10)
-model_trainer._eval_save_prefix = "pmf-yahoo-test-pos"
+model_trainer._eval_save_prefix = "pmf-yahoo-val"
 model_trainer._evaluate_partial(val_dataset)
 

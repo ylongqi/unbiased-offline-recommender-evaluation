@@ -7,6 +7,10 @@ from openrec.legacy.recommenders import NCML
 from openrec.legacy.utils.evaluators import AUC, Recall, Precision, NDCG
 from openrec.legacy.utils.samplers import NPairwiseSampler
 
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/wcml-amazon/wcml-amazon-auc.data-00000-of-00001")
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/wcml-amazon/wcml-amazon-auc.index")
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/wcml-amazon/wcml-amazon-auc.meta")
+
 os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/amazon/rsrf_user_data_train.npy")
 os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/amazon/rsrf_user_data_val.npy")
 os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/amazon/rsrf_user_data_test.npy")
@@ -38,7 +42,7 @@ recall_evaluator = Recall(recall_at=[10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
 precision_evaluator = Precision(precision_at=[10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
 ndcg_evaluator = NDCG(ndcg_at=[10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
 
-ncml_model.load("wcml-amazon")
+ncml_model.load("wcml-amazon-auc")
 
 model_trainer._eval_manager = ImplicitEvalManager(evaluators=[auc_evaluator, recall_evaluator, ndcg_evaluator, precision_evaluator])
 model_trainer._num_negatives = 200

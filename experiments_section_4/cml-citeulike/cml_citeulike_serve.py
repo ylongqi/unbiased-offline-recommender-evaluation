@@ -7,10 +7,13 @@ from openrec.legacy.recommenders import CML
 from openrec.legacy.utils.evaluators import AUC, Recall, Precision, NDCG
 from openrec.legacy.utils.samplers import PairwiseSampler
 
-
 os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/citeulike/rsrf_user_data_train.npy")
 os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/citeulike/rsrf_user_data_val.npy")
 os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/dataset/citeulike/rsrf_user_data_test.npy")
+
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/cml-citeulike/cml-citeulike.data-00000-of-00001")
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/cml-citeulike/cml-citeulike.index")
+os.system("wget https://s3.amazonaws.com/cornell-tech-sdl-rec-bias/best-models/cml-citeulike/cml-citeulike.meta")
 
 
 raw_data = dict()
